@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Accessible Profile Card</title>
+  <style>
+    :root{
+      --card-bg:#ffffff;
+      --muted:#6b7280;
+      --accent:#2563eb;
+      --focus: 3px solid rgba(37,99,235,0.25);
+      --radius:12px;
+      --shadow: 0 6px 18px rgba(15,23,42,0.08);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: linear-gradient(180deg,#f6f8fb,#eef2ff);
+      padding:24px;
+    }
+
+    /* Card */
+    article.profile-card {
+      width:100%;
+      max-width:900px;
+      background:var(--card-bg);
+      padding:20px;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      box-sizing:border-box;
+      display:grid;
+      gap:16px;
+      align-items:start;
+    }
+
+    /* Responsive layout */
+    @media (min-width:768px){
+      article.profile-card {
+        grid-template-columns: 220px 1fr;
+      }
+      figure.avatar { margin:0; }
+    }
+
+    /* Avatar */
+    figure.avatar {
+      margin: 0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+    }
+    figure.avatar img {
+      width:160px;
+      height:160px;
+      object-fit:cover;
+      border-radius: 12px;
+      border:1px solid #e6eef8;
+      background:linear-gradient(180deg,#fff,#eef2ff);
+    }
+    .avatar-controls{
+      width:100%;
+      display:flex;
+      flex-direction: column;
+      gap:8px;
+      justify-content:center;
+      align-items: stretch;
+      flex-wrap:wrap;
+    }
+    .avatar-controls input[type="url"]
+    .avatar-controls input[type="file"]{
+      width: 100%;
+      font: inherit;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #e6eef8;
+      background: #f9fafc;
+      box-sizing: border-box;
+      flex:1 1 100%;
+      min-width:0;
+    }
+
+    /* Content */
+    .content {
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    header h2 {
+      margin:0;
+      font-size:1.25rem;
+      line-height:1.2;
+      color:#0f172a;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    header .meta {
+      display:flex;
+      gap:8px;
+      align-items:center;
+      font-size:0.875rem;
+      color:var(--muted);
+    }
+
+    /* Social */
+    nav.social {
+      margin:0;
+    }
+    nav.social ul {
+      display:flex;
+      gap:8px;
+      padding:0;
+      margin:0;
+      list-style:none;
+      flex-wrap:wrap;
+    }
+    nav.social a {
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:8px;
+      text-decoration:none;
+      font-size:0.875rem;
+      border:1px solid transparent;
+      background: #f8fafc;
+      color:#0f172a;
+    }
+
+    /* Hobbies / dislikes */
+    .lists {
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    .lists section {
+      flex:1 1 200px;
+    }
+    .lists h3 {
+      margin:0 0 8px 0;
+      font-size:0.95rem;
+    }
+    ul.plain {
+      padding-left:1rem;
+      margin:0;
+      color:var(--muted);
+    }
+
+    /* Read more */
+    .bio {
+      margin:0;
+      color:#111827;
+      overflow:hidden;
+    }
+    .clamp-3 {
+      display:-webkit-box;
+      -webkit-box-orient:vertical;
+      -webkit-line-clamp:3;
+      overflow:hidden;
+    }
+
+    /* Forms & inputs */
+    .avatar-input-row {
+      display:flex;
+      gap:8px;
+      width:100%;
+      align-items:center;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    input[type="file"], input[type="url"], button {
+      font:inherit;
+      padding:8px;
+      border-radius:8px;
+      border:1px solid #e6eef8;
+      background:white;
+    }
+
+    /* Focus styles */
+    a:focus, button:focus, input:focus {
+      outline: none;
+      box-shadow: var(--focus);
+      border-color: var(--accent);
+    }
+
+    /* Small screens tweaks */
+    @media (max-width:420px){
+      figure.avatar img{ width:128px; height:128px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Profile Card root -->
+  <article class="profile-card" data-testid="test-profile-card" aria-labelledby="profile-name">
+    <!-- Avatar area -->
+    <figure class="avatar" aria-hidden="false">
+      <img src="SEYI.jpg"
+           alt="User avatar: Tobi Seyi smiling"
+           data-testid="test-user-avatar"
+           id="avatarImg">
+      <figcaption class="sr-only" aria-hidden="true">User avatar image</figcaption>
+
+      <div class="avatar-controls" aria-label="Avatar controls">
+        <!-- URL input for avatar -->
+        <label for="avatarUrl" style="display:none">Avatar URL</label>
+        <input id="avatarUrl" type="url" placeholder="Paste image URL (https://...)" aria-label="Avatar image URL" />
+        <!-- File upload -->
+        <label for="avatarFile" style="display:none">Upload avatar</label>
+        <input id="avatarFile" type="file" accept="image/*" aria-label="Upload avatar image" />
+      </div>
+      <small style="color:var(--muted);font-size:0.8rem">You can paste an image URL or upload a file.</small>
+    </figure>
+
+    <!-- Content -->
+    <div class="content">
+      <header>
+        <h2 id="profile-name" data-testid="test-user-name" aria-label="User full name">Oluwatobi Oluwaseyi</h2>
+        <div class="meta" aria-hidden="false" style="margin-top:6px">
+          <span id="userTime" data-testid="test-user-time" aria-live="polite" title="Current time in milliseconds">0</span>
+          <span aria-hidden="true">•</span>
+          <span style="color:var(--muted)">Member since 2025</span>
+        </div>
+      </header>
+
+      <section aria-labelledby="bio-heading">
+        <h3 id="bio-heading" class="sr-only">Short biography</h3>
+        <p id="bio" class="bio clamp-3" data-testid="test-user-bio">
+          Oluwaseyi is a front-end developer and data analytics enthusiast who loves bringing ideas to life through clean, responsive design. With a strong eye for accessibility and performance, he focuses on creating meaningful user experiences. When not coding, he enjoys mentoring kids, experimenting with pottery, and caring for his growing plant collection.
+        </p>
+        <div>
+          <button id="toggleBio" aria-expanded="false" aria-controls="bio">Read more</button>
+        </div>
+      </section>
+
+      <!-- Social links -->
+      <nav class="social" aria-label="Social links" data-testid="test-user-social-links">
+        <ul>
+          <li><a id="twitterLink" data-testid="test-user-social-twitter" href="https://twitter.com/" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+          <li><a id="githubLink" data-testid="test-user-social-github" href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+          <li><a id="linkedinLink" data-testid="test-user-social-linkedin" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        </ul>
+      </nav>
+
+      <!-- Hobbies & Dislikes -->
+      <div class="lists" role="region" aria-label="Hobbies and dislikes">
+        <section aria-labelledby="hobbiesHeading">
+          <h3 id="hobbiesHeading">Hobbies</h3>
+          <ul class="plain" data-testid="test-user-hobbies">
+            <li>Games</li>
+            <li>Reading</li>
+            <li>Designing</li>
+          </ul>
+        </section>
+
+        <section aria-labelledby="dislikesHeading">
+          <h3 id="dislikesHeading">Dislikes</h3>
+          <ul class="plain" data-testid="test-user-dislikes">
+            <li>Dark patterns</li>
+            <li>Slow-loading sites</li>
+            <li>Unlabeled form controls</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </article>
+
+  <script>
+    // --- Time element: show Date.now() in ms, update every 500ms ---
+    const timeEl = document.querySelector('[data-testid="test-user-time"]');
+    function renderTime(){
+      // Show Date.now()
+      timeEl.textContent = String(Date.now());
+    }
+    renderTime();
+    // Update reasonably so tests that read nearly-simultaneously see a current value.
+    setInterval(renderTime, 500);
+
+    // --- Avatar: URL input OR file upload ---
+    const avatarImg = document.getElementById('avatarImg');
+    const avatarUrlInput = document.getElementById('avatarUrl');
+    const avatarFileInput = document.getElementById('avatarFile');
+
+    // If user pastes a URL and presses Enter, set avatar src
+    avatarUrlInput.addEventListener('change', e => {
+      const url = (e.target.value || '').trim();
+      if(url){
+        avatarImg.src = url;
+        avatarImg.alt = `Avatar image uploaded by user from ${url}`;
+      }
+    });
+
+    // If file uploaded, create object URL
+    avatarFileInput.addEventListener('change', e => {
+      const file = e.target.files && e.target.files[0];
+      if(file){
+        const objectUrl = URL.createObjectURL(file);
+        avatarImg.src = objectUrl;
+        avatarImg.alt = `Avatar image uploaded by user: ${file.name}`;
+        // Optional: revoke when image loads to free memory
+        avatarImg.onload = () => {
+          try { URL.revokeObjectURL(objectUrl); } catch(e){}
+        };
+      }
+    });
+
+    // --- Bio: Read more toggle (accessible) ---
+    const bioEl = document.getElementById('bio');
+    const toggleBio = document.getElementById('toggleBio');
+    toggleBio.addEventListener('click', () => {
+      const expanded = toggleBio.getAttribute('aria-expanded') === 'true';
+      toggleBio.setAttribute('aria-expanded', String(!expanded));
+      if(expanded){
+        // collapse
+        bioEl.classList.add('clamp-3');
+        toggleBio.textContent = 'Read more';
+      } else {
+        // expand
+        bioEl.classList.remove('clamp-3');
+        toggleBio.textContent = 'Show less';
+      }
+    });
+
+    // Keyboard accessibility: ensure file input can be activated by label if needed
+    // (We already expose inputs directly so not needed; this is here as a note.)
+  </script>
+</body>
+</html>
